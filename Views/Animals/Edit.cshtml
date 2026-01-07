@@ -1,0 +1,80 @@
+@model DierentuinApp.Models.Animal
+
+@{
+    ViewData["Title"] = "Bewerk - " + Model.Name;
+}
+
+<h1>@Model.Name bewerken</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Naam</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Species" class="form-label">Soort</label>
+                <input asp-for="Species" class="form-control" />
+                <span asp-validation-for="Species" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Categorie</label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                    <option value="">-- Selecteer categorie --</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="EnclosureId" class="form-label">Verblijf</label>
+                <select asp-for="EnclosureId" asp-items="ViewBag.Enclosures" class="form-select">
+                    <option value="">-- Selecteer verblijf --</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Size" class="form-label">Grootte</label>
+                <select asp-for="Size" asp-items="Html.GetEnumSelectList<DierentuinApp.Models.AnimalSize>()" class="form-select"></select>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="DietaryClass" class="form-label">Dieet</label>
+                <select asp-for="DietaryClass" asp-items="Html.GetEnumSelectList<DierentuinApp.Models.DietaryClass>()" class="form-select"></select>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="ActivityPattern" class="form-label">Activiteitspatroon</label>
+                <select asp-for="ActivityPattern" asp-items="Html.GetEnumSelectList<DierentuinApp.Models.ActivityPattern>()" class="form-select"></select>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Prey" class="form-label">Prooi</label>
+                <input asp-for="Prey" class="form-control" />
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="SpaceRequirement" class="form-label">Ruimtebehoefte (m²)</label>
+                <input asp-for="SpaceRequirement" class="form-control" type="number" step="0.1" />
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="SecurityRequirement" class="form-label">Beveiligingsniveau</label>
+                <select asp-for="SecurityRequirement" asp-items="Html.GetEnumSelectList<DierentuinApp.Models.SecurityLevel>()" class="form-select"></select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Opslaan</button>
+            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

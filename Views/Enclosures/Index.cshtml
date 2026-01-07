@@ -1,0 +1,44 @@
+@model IEnumerable<DierentuinApp.Models.Enclosure>
+
+@{
+    ViewData["Title"] = "Verblijven";
+}
+
+<h1>Verblijven</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nieuw verblijf toevoegen</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Klimaat</th>
+            <th>Habitat</th>
+            <th>Beveiliging</th>
+            <th>Grootte (m²)</th>
+            <th>Aantal dieren</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enclosure in Model)
+        {
+            <tr>
+                <td>@enclosure.Name</td>
+                <td>@enclosure.Climate</td>
+                <td>@enclosure.HabitatType</td>
+                <td>@enclosure.SecurityLevel</td>
+                <td>@enclosure.Size</td>
+                <td>@enclosure.Animals.Count</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@enclosure.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@enclosure.Id" class="btn btn-sm btn-warning">Bewerken</a>
+                    <a asp-action="Delete" asp-route-id="@enclosure.Id" class="btn btn-sm btn-danger">Verwijderen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

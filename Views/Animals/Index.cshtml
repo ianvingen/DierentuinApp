@@ -1,0 +1,44 @@
+@model IEnumerable<DierentuinApp.Models.Animal>
+
+@{
+    ViewData["Title"] = "Dieren";
+}
+
+<h1>Dieren</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nieuw dier toevoegen</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Soort</th>
+            <th>Categorie</th>
+            <th>Verblijf</th>
+            <th>Grootte</th>
+            <th>Dieet</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var animal in Model)
+        {
+            <tr>
+                <td>@animal.Name</td>
+                <td>@animal.Species</td>
+                <td>@(animal.Category?.Name ?? "-")</td>
+                <td>@(animal.Enclosure?.Name ?? "-")</td>
+                <td>@animal.Size</td>
+                <td>@animal.DietaryClass</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@animal.Id" class="btn btn-sm btn-warning">Bewerken</a>
+                    <a asp-action="Delete" asp-route-id="@animal.Id" class="btn btn-sm btn-danger">Verwijderen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

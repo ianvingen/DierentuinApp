@@ -1,0 +1,44 @@
+@model DierentuinApp.Models.Animal
+
+@{
+    ViewData["Title"] = "Details - " + Model.Name;
+}
+
+<h1>@Model.Name</h1>
+<h4 class="text-muted">@Model.Species</h4>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Categorie</dt>
+            <dd class="col-sm-9">@(Model.Category?.Name ?? "Geen")</dd>
+
+            <dt class="col-sm-3">Verblijf</dt>
+            <dd class="col-sm-9">@(Model.Enclosure?.Name ?? "Geen")</dd>
+
+            <dt class="col-sm-3">Grootte</dt>
+            <dd class="col-sm-9">@Model.Size</dd>
+
+            <dt class="col-sm-3">Dieet</dt>
+            <dd class="col-sm-9">@Model.DietaryClass</dd>
+
+            <dt class="col-sm-3">Activiteitspatroon</dt>
+            <dd class="col-sm-9">@Model.ActivityPattern</dd>
+
+            <dt class="col-sm-3">Prooi</dt>
+            <dd class="col-sm-9">@(Model.Prey ?? "Geen")</dd>
+
+            <dt class="col-sm-3">Ruimtebehoefte</dt>
+            <dd class="col-sm-9">@Model.SpaceRequirement m²</dd>
+
+            <dt class="col-sm-3">Beveiligingsniveau</dt>
+            <dd class="col-sm-9">@Model.SecurityRequirement</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Bewerken</a>
+    <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+</div>
+
