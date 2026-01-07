@@ -6,7 +6,6 @@ using DierentuinApp.Models;
 
 namespace DierentuinApp.Controllers;
 
-// MVC Controller voor Animals - alle CRUD operaties
 public class AnimalsController : Controller
 {
     private readonly ZooContext _context;
@@ -152,13 +151,13 @@ public class AnimalsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // Helper: check of animal bestaat
+    // Check of animal bestaat
     private bool AnimalExists(int id)
     {
         return _context.Animals.Any(e => e.Id == id);
     }
 
-    // Helper: vul dropdowns voor Category en Enclosure
+    // Vul dropdowns voor Category en Enclosure
     private void LoadDropdowns(Animal? animal = null)
     {
         ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", animal?.CategoryId);

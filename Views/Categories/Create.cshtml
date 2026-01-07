@@ -1,0 +1,29 @@
+@model DierentuinApp.Models.Category
+
+@{
+    ViewData["Title"] = "Nieuwe categorie toevoegen";
+}
+
+<h1>Nieuwe categorie toevoegen</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Naam</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Opslaan</button>
+            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
