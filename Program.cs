@@ -10,6 +10,14 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Database migratie en seeding
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ZooContext>();
+    context.Database.Migrate();
+    DbSeeder.Seed(context);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
