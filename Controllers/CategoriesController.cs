@@ -23,7 +23,7 @@ public class CategoriesController : Controller
         return View(categories);
     }
 
-    // GET: Categories/Details/5
+    // GET: Categories/Details/{id}
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -63,7 +63,7 @@ public class CategoriesController : Controller
         return View(category);
     }
 
-    // GET: Categories/Edit/5
+    // GET: Categories/Edit/{id}
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -79,7 +79,7 @@ public class CategoriesController : Controller
         return View(category);
     }
 
-    // POST: Categories/Edit/5
+    // POST: Categories/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Category category)
@@ -109,7 +109,7 @@ public class CategoriesController : Controller
         return View(category);
     }
 
-    // GET: Categories/Delete/5
+    // GET: Categories/Delete/{id}
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -129,7 +129,7 @@ public class CategoriesController : Controller
         return View(category);
     }
 
-    // POST: Categories/Delete/5
+    // POST: Categories/Delete/{id}
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)

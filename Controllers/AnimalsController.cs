@@ -25,7 +25,7 @@ public class AnimalsController : Controller
         return View(animals);
     }
 
-    // GET: Animals/Details/5
+    // GET: Animals/Details/{id}
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -68,7 +68,7 @@ public class AnimalsController : Controller
         return View(animal);
     }
 
-    // GET: Animals/Edit/5
+    // GET: Animals/Edit/{ID}
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -85,7 +85,7 @@ public class AnimalsController : Controller
         return View(animal);
     }
 
-    // POST: Animals/Edit/5
+    // POST: Animals/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Animal animal)
@@ -116,7 +116,7 @@ public class AnimalsController : Controller
         return View(animal);
     }
 
-    // GET: Animals/Delete/5
+    // GET: Animals/Delete/{id}
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -137,7 +137,7 @@ public class AnimalsController : Controller
         return View(animal);
     }
 
-    // POST: Animals/Delete/5
+    // POST: Animals/Delete/{id}
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
