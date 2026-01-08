@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DierentuinApp.Data;
 using DierentuinApp.Models;
+using DierentuinApp.Services;
 
 namespace DierentuinApp.Controllers;
 
@@ -10,10 +11,12 @@ namespace DierentuinApp.Controllers;
 public class AnimalsApiController : ControllerBase
 {
     private readonly ZooContext _context;
+    private readonly ZooService _zooService;
 
-    public AnimalsApiController(ZooContext context)
+    public AnimalsApiController(ZooContext context, ZooService zooService)
     {
         _context = context;
+        _zooService = zooService;
     }
 
     // GET: api/animals - Haalt alle dieren op
@@ -104,4 +107,61 @@ public class AnimalsApiController : ControllerBase
     {
         return _context.Animals.Any(e => e.Id == id);
     }
+
+    #region Acties
+
+    // GET: api/animals/{id}/sunrise - Wat doet dit dier bij zonsopgang?
+    [HttpGet("{id}/sunrise")]
+    public async Task<ActionResult<string>> Sunrise(int id)
+    {
+        var animal = await _context.Animals.FindAsync(id);
+        if (animal == null) return NotFound();
+
+        return Ok(_zooService.GetSunriseStatus(animal));
+    }
+
+    // GET: api/animals/{id}/sunset - Wat doet dit dier bij zonsondergang?
+    [HttpGet("{id}/sunset")]
+    public async Task<ActionResult<string>> Sunset(int id)
+    {
+        var animal = await _context.Animals.FindAsync(id);
+        if (animal == null) return NotFound();
+
+        return Ok(_zooService.GetSunsetStatus(animal));
+    }
+
+    // GET: api/animals/{id}/feedingtime - Wat eet dit dier?
+    [HttpGet("{id}/feedingtime")]
+    public async Task<ActionResult<string>> FeedingTime(int id)
+    {
+        var animal = await _context.Animals
+            .Include(a => a.Enclosure)
+                .ThenInclude(e => e!.Animals)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (animal == null) return NotFound();
+
+        var enclosureAnimals = animal.Enclosure?.Animals;
+        return Ok(_zooService.GetFeedingInfo(animal, enclosureAnimals));
+    }
+
+    // GET: api/animals/{id}/checkconstraints - Voldoet dit dier aan alle eisen?
+    [HttpGet("{id}/checkconstraints")]
+    public async Task<ActionResult<List<string>>> CheckConstraints(int id)
+    {
+        var animal = await _context.Animals
+            .Include(a => a.Enclosure)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (animal == null) return NotFound();
+
+        var issues = _zooService.CheckAnimalConstraints(animal);
+        if (!issues.Any())
+        {
+            issues.Add("Alle constraints voldaan ✓");
+        }
+        return Ok(issues);
+    }
+
+    #endregion
 }

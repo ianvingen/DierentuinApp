@@ -1,0 +1,36 @@
+@model Dictionary<string, List<string>>
+@{
+    ViewData["Title"] = "Voedertijd";
+}
+
+<h1>🍖 Voedertijd</h1>
+<p>Wat eet elk dier?</p>
+
+@foreach (var enclosure in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>@enclosure.Key</strong>
+        </div>
+        <ul class="list-group list-group-flush">
+            @foreach (var status in enclosure.Value)
+            {
+                @if (status.Contains("LET OP"))
+                {
+                    <li class="list-group-item list-group-item-danger">⚠️ @status</li>
+                }
+                else
+                {
+                    <li class="list-group-item">@status</li>
+                }
+            }
+            @if (!enclosure.Value.Any())
+            {
+                <li class="list-group-item text-muted">Geen dieren</li>
+            }
+        </ul>
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Terug</a>
+

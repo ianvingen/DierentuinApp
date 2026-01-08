@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using DierentuinApp.Data;
+using DierentuinApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Database configuratie
 builder.Services.AddDbContext<ZooContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ZooService registreren voor dependency injection (Scoped = per request een nieuwe instance)
+builder.Services.AddScoped<ZooService>();
 
 // MVC en API controllers toevoegen
 builder.Services.AddControllersWithViews()
