@@ -23,7 +23,7 @@ public class EnclosuresController : Controller
         return View(enclosures);
     }
 
-    // GET: Enclosures/Details/5
+    // GET: Enclosures/Details/{id}
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -63,7 +63,7 @@ public class EnclosuresController : Controller
         return View(enclosure);
     }
 
-    // GET: Enclosures/Edit/5
+    // GET: Enclosures/Edit/{id}
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -79,7 +79,7 @@ public class EnclosuresController : Controller
         return View(enclosure);
     }
 
-    // POST: Enclosures/Edit/5
+    // POST: Enclosures/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Enclosure enclosure)
@@ -109,7 +109,7 @@ public class EnclosuresController : Controller
         return View(enclosure);
     }
 
-    // GET: Enclosures/Delete/5
+    // GET: Enclosures/Delete/{id}
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -129,7 +129,7 @@ public class EnclosuresController : Controller
         return View(enclosure);
     }
 
-    // POST: Enclosures/Delete/5
+    // POST: Enclosures/Delete/{id}
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
