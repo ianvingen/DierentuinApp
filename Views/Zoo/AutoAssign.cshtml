@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "AutoAssign";
+}
+
+<h1>🔄 AutoAssign</h1>
+<p>Wijs dieren automatisch toe aan geschikte verblijven.</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Kies een optie</h5>
+        
+        <form asp-action="AutoAssign" method="post" class="mb-3">
+            <input type="hidden" name="clearExisting" value="false" />
+            <button type="submit" class="btn btn-primary">
+                Bestaande indeling aanvullen
+            </button>
+            <p class="text-muted mt-2">
+                <small>Voegt dieren zonder verblijf toe aan bestaande verblijven (indien geschikt) of maakt nieuwe verblijven aan.</small>
+            </p>
+        </form>
+        
+        <hr />
+        
+        <form asp-action="AutoAssign" method="post">
+            <input type="hidden" name="clearExisting" value="true" />
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je de bestaande indeling wilt verwijderen?')">
+                Nieuwe indeling maken
+            </button>
+            <p class="text-muted mt-2">
+                <small>Verwijdert alle bestaande toewijzingen en maakt een volledig nieuwe indeling.</small>
+            </p>
+        </form>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Terug</a>
+

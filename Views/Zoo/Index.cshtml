@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Dierentuin Beheer";
+}
+
+<h1>Dierentuin Beheer</h1>
+
+<p>Kies een actie om uit te voeren voor de hele dierentuin:</p>
+
+<div class="row">
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🌅 Zonsopgang</h5>
+                <p class="card-text">Bekijk welke dieren wakker worden en welke gaan slapen bij zonsopgang.</p>
+                <a asp-action="Sunrise" class="btn btn-primary">Bekijken</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🌇 Zonsondergang</h5>
+                <p class="card-text">Bekijk welke dieren wakker worden en welke gaan slapen bij zonsondergang.</p>
+                <a asp-action="Sunset" class="btn btn-primary">Bekijken</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🍖 Voedertijd</h5>
+                <p class="card-text">Bekijk wat elk dier eet en of er gevaarlijke combinaties zijn.</p>
+                <a asp-action="FeedingTime" class="btn btn-primary">Bekijken</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">✅ Constraints Check</h5>
+                <p class="card-text">Controleer of alle verblijven en dieren aan de eisen voldoen.</p>
+                <a asp-action="CheckConstraints" class="btn btn-warning">Controleren</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🔄 AutoAssign</h5>
+                <p class="card-text">Wijs dieren automatisch toe aan geschikte verblijven.</p>
+                <a asp-action="AutoAssign" class="btn btn-success">Uitvoeren</a>
+            </div>
+        </div>
+    </div>
+</div>
+

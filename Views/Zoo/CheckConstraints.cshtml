@@ -1,0 +1,42 @@
+@model Dictionary<string, Dictionary<string, List<string>>>
+@{
+    ViewData["Title"] = "Constraints Check";
+}
+
+<h1>✅ Constraints Check</h1>
+<p>Controle of alle verblijven en dieren aan de eisen voldoen.</p>
+
+@foreach (var enclosure in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>@enclosure.Key</strong>
+        </div>
+        <div class="card-body">
+            @foreach (var item in enclosure.Value)
+            {
+                <h6>@item.Key</h6>
+                <ul>
+                    @foreach (var issue in item.Value)
+                    {
+                        @if (issue.Contains("✓"))
+                        {
+                            <li class="text-success">@issue</li>
+                        }
+                        else if (issue.Contains("GEVAAR"))
+                        {
+                            <li class="text-danger"><strong>@issue</strong></li>
+                        }
+                        else
+                        {
+                            <li class="text-warning">@issue</li>
+                        }
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Terug</a>
+
