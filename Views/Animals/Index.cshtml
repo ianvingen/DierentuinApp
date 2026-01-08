@@ -1,4 +1,5 @@
 @model IEnumerable<DierentuinApp.Models.Animal>
+@using DierentuinApp.Models
 
 @{
     ViewData["Title"] = "Dieren";
@@ -9,6 +10,47 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Nieuw dier toevoegen</a>
 </p>
+
+<!-- Filter formulier -->
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-2">
+            <input type="text" name="search" class="form-control" placeholder="Zoek naam/soort" value="@ViewBag.CurrentSearch" />
+        </div>
+        <div class="col-md-2">
+            <select name="categoryId" class="form-select" asp-items="@ViewBag.Categories">
+                <option value="">Categorie</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="enclosureId" class="form-select" asp-items="@ViewBag.Enclosures">
+                <option value="">Verblijf</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="size" class="form-select">
+                <option value="">Grootte</option>
+                @foreach (var s in Enum.GetValues<AnimalSize>())
+                {
+                    <option value="@s" selected="@(ViewBag.CurrentSize != null && (AnimalSize)ViewBag.CurrentSize == s)">@s</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="diet" class="form-select">
+                <option value="">Dieet</option>
+                @foreach (var d in Enum.GetValues<DietaryClass>())
+                {
+                    <option value="@d" selected="@(ViewBag.CurrentDiet != null && (DietaryClass)ViewBag.CurrentDiet == d)">@d</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-secondary">Zoeken</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+        </div>
+    </div>
+</form>
 
 <table class="table table-striped">
     <thead>

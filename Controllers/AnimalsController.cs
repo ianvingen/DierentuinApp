@@ -15,14 +15,52 @@ public class AnimalsController : Controller
         _context = context;
     }
 
-    // GET: Animals
-    public async Task<IActionResult> Index()
+    // GET: Animals - met optionele filters
+    public async Task<IActionResult> Index(string? search, int? categoryId, int? enclosureId, AnimalSize? size, DietaryClass? diet)
     {
-        var animals = await _context.Animals
+        var query = _context.Animals
             .Include(a => a.Category)
             .Include(a => a.Enclosure)
-            .ToListAsync();
-        return View(animals);
+            .AsQueryable();
+
+        // Filter op zoekterm (naam of soort)
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(a => a.Name.Contains(search) || a.Species.Contains(search));
+        }
+
+        // Filter op categorie
+        if (categoryId.HasValue)
+        {
+            query = query.Where(a => a.CategoryId == categoryId);
+        }
+
+        // Filter op verblijf
+        if (enclosureId.HasValue)
+        {
+            query = query.Where(a => a.EnclosureId == enclosureId);
+        }
+
+        // Filter op grootte
+        if (size.HasValue)
+        {
+            query = query.Where(a => a.Size == size);
+        }
+
+        // Filter op dieet
+        if (diet.HasValue)
+        {
+            query = query.Where(a => a.DietaryClass == diet);
+        }
+
+        // Dropdowns voor filters
+        ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", categoryId);
+        ViewBag.Enclosures = new SelectList(_context.Enclosures, "Id", "Name", enclosureId);
+        ViewBag.CurrentSearch = search;
+        ViewBag.CurrentSize = size;
+        ViewBag.CurrentDiet = diet;
+
+        return View(await query.ToListAsync());
     }
 
     // GET: Animals/Details/{id}

@@ -14,13 +14,18 @@ public class CategoriesController : Controller
         _context = context;
     }
 
-    // GET: Categories
-    public async Task<IActionResult> Index()
+    // GET: Categories - met optionele zoekfilter
+    public async Task<IActionResult> Index(string? search)
     {
-        var categories = await _context.Categories
+        var query = _context.Categories
             .Include(c => c.Animals)
-            .ToListAsync();
-        return View(categories);
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+            query = query.Where(c => c.Name.Contains(search));
+
+        ViewBag.CurrentSearch = search;
+        return View(await query.ToListAsync());
     }
 
     // GET: Categories/Details/{id}

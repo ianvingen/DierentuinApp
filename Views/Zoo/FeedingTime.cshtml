@@ -3,7 +3,7 @@
     ViewData["Title"] = "Voedertijd";
 }
 
-<h1>🍖 Voedertijd</h1>
+<h1>Voedertijd</h1>
 <p>Wat eet elk dier?</p>
 
 @foreach (var enclosure in Model)
@@ -17,7 +17,7 @@
             {
                 @if (status.Contains("LET OP"))
                 {
-                    <li class="list-group-item list-group-item-danger">⚠️ @status</li>
+                    <li class="list-group-item list-group-item-danger">@status</li>
                 }
                 else
                 {
