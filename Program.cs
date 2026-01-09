@@ -11,6 +11,10 @@ builder.Services.AddDbContext<ZooContext>(options =>
 // ZooService registreren voor dependency injection (Scoped = per request een nieuwe instance)
 builder.Services.AddScoped<ZooService>();
 
+// Swagger configuratie
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // MVC en API controllers toevoegen
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -27,6 +31,13 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();  // Voert alle pending migrations uit
     DbSeeder.Seed(context);      // Vult database met testdata als deze leeg is
 }
+
+// Swagger configuratie
+if (app.Environment.IsDevelopment()) {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 
 // Foutafhandeling en beveiliging voor productie
 if (!app.Environment.IsDevelopment())
