@@ -6,6 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <!-- Exclude test project folder van main build -->
+  <ItemGroup>
+    <Compile Remove="DierentuinApp.Tests\**" />
+    <Content Remove="DierentuinApp.Tests\**" />
+    <EmbeddedResource Remove="DierentuinApp.Tests\**" />
+    <None Remove="DierentuinApp.Tests\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
