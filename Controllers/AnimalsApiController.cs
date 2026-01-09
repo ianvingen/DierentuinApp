@@ -19,16 +19,32 @@ public class AnimalsApiController : ControllerBase
         _zooService = zooService;
     }
 
-    // GET: api/animals - Haalt alle dieren op
+    // GET: api/animals - Haalt alle dieren op met optionele filters
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Animal>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Animal>>> GetAll(
+        [FromQuery] string? search,
+        [FromQuery] int? categoryId,
+        [FromQuery] int? enclosureId,
+        [FromQuery] AnimalSize? size,
+        [FromQuery] DietaryClass? diet)
     {
-        // Laad de bijbehorende Category en Enclosure mee zodat die navigation properties niet null zijn
-        var animals = await _context.Animals
+        var query = _context.Animals
             .Include(a => a.Category)
             .Include(a => a.Enclosure)
-            .ToListAsync();
-        return Ok(animals);
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+            query = query.Where(a => a.Name.Contains(search) || a.Species.Contains(search));
+        if (categoryId.HasValue)
+            query = query.Where(a => a.CategoryId == categoryId);
+        if (enclosureId.HasValue)
+            query = query.Where(a => a.EnclosureId == enclosureId);
+        if (size.HasValue)
+            query = query.Where(a => a.Size == size);
+        if (diet.HasValue)
+            query = query.Where(a => a.DietaryClass == diet);
+
+        return Ok(await query.ToListAsync());
     }
 
     // GET: api/animals/{id} - Haalt een specifiek dier op

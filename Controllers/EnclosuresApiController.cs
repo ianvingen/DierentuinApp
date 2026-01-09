@@ -19,15 +19,25 @@ public class EnclosuresApiController : ControllerBase
         _zooService = zooService;
     }
 
-    // GET: api/enclosures - Haalt alle verblijven op
+    // GET: api/enclosures - Haalt alle verblijven op met optionele filters
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Enclosure>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Enclosure>>> GetAll(
+        [FromQuery] string? search,
+        [FromQuery] Climate? climate,
+        [FromQuery] SecurityLevel? security)
     {
-        // Include Animals zodat je kan zien welke dieren in elk verblijf zitten
-        var enclosures = await _context.Enclosures
+        var query = _context.Enclosures
             .Include(e => e.Animals)
-            .ToListAsync();
-        return Ok(enclosures);
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+            query = query.Where(e => e.Name.Contains(search));
+        if (climate.HasValue)
+            query = query.Where(e => e.Climate == climate);
+        if (security.HasValue)
+            query = query.Where(e => e.SecurityLevel == security);
+
+        return Ok(await query.ToListAsync());
     }
 
     // GET: api/enclosures/{id} - Haalt een specifiek verblijf op

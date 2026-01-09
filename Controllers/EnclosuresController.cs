@@ -14,13 +14,25 @@ public class EnclosuresController : Controller
         _context = context;
     }
 
-    // GET: Enclosures
-    public async Task<IActionResult> Index()
+    // GET: Enclosures - met optionele filters
+    public async Task<IActionResult> Index(string? search, Climate? climate, SecurityLevel? security)
     {
-        var enclosures = await _context.Enclosures
+        var query = _context.Enclosures
             .Include(e => e.Animals)
-            .ToListAsync();
-        return View(enclosures);
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+            query = query.Where(e => e.Name.Contains(search));
+        if (climate.HasValue)
+            query = query.Where(e => e.Climate == climate);
+        if (security.HasValue)
+            query = query.Where(e => e.SecurityLevel == security);
+
+        ViewBag.CurrentSearch = search;
+        ViewBag.CurrentClimate = climate;
+        ViewBag.CurrentSecurity = security;
+
+        return View(await query.ToListAsync());
     }
 
     // GET: Enclosures/Details/{id}

@@ -16,15 +16,18 @@ public class CategoriesApiController : ControllerBase
         _context = context;
     }
 
-    // GET: api/categories - Haalt alle categorieën op
+    // GET: api/categories - Haalt alle categorieën op met optionele filter
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Category>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Category>>> GetAll([FromQuery] string? search)
     {
-        // Include Animals zodat je kan zien welke dieren in elke categorie zitten
-        var categories = await _context.Categories
+        var query = _context.Categories
             .Include(c => c.Animals)
-            .ToListAsync();
-        return Ok(categories);
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+            query = query.Where(c => c.Name.Contains(search));
+
+        return Ok(await query.ToListAsync());
     }
 
     // GET: api/categories/{id} - Haalt een specifieke categorie op
