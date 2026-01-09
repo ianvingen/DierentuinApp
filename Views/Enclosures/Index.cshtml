@@ -1,5 +1,6 @@
 @model IEnumerable<DierentuinApp.Models.Enclosure>
 @using DierentuinApp.Models
+@using DierentuinApp.Helpers
 
 @{
     ViewData["Title"] = "Verblijven";
@@ -19,19 +20,19 @@
         </div>
         <div class="col-md-3">
             <select name="climate" class="form-select">
-                <option value="">-- Klimaat --</option>
+                <option value="">Klimaat</option>
                 @foreach (var c in Enum.GetValues<Climate>())
                 {
-                    <option value="@c" selected="@(ViewBag.CurrentClimate != null && (Climate)ViewBag.CurrentClimate == c)">@c</option>
+                    <option value="@c" selected="@(ViewBag.CurrentClimate != null && (Climate)ViewBag.CurrentClimate == c)">@c.GetDisplayName()</option>
                 }
             </select>
         </div>
         <div class="col-md-3">
             <select name="security" class="form-select">
-                <option value="">-- Beveiliging --</option>
+                <option value="">Beveiliging</option>
                 @foreach (var s in Enum.GetValues<SecurityLevel>())
                 {
-                    <option value="@s" selected="@(ViewBag.CurrentSecurity != null && (SecurityLevel)ViewBag.CurrentSecurity == s)">@s</option>
+                    <option value="@s" selected="@(ViewBag.CurrentSecurity != null && (SecurityLevel)ViewBag.CurrentSecurity == s)">@s.GetDisplayName()</option>
                 }
             </select>
         </div>
@@ -59,9 +60,9 @@
         {
             <tr>
                 <td>@enclosure.Name</td>
-                <td>@enclosure.Climate</td>
-                <td>@enclosure.HabitatType</td>
-                <td>@enclosure.SecurityLevel</td>
+                <td>@enclosure.Climate.GetDisplayName()</td>
+                <td>@enclosure.HabitatType.GetDisplayName()</td>
+                <td>@enclosure.SecurityLevel.GetDisplayName()</td>
                 <td>@enclosure.Size</td>
                 <td>@enclosure.Animals.Count</td>
                 <td>

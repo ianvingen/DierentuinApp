@@ -19,7 +19,9 @@ public class EnclosuresApiController : ControllerBase
         _zooService = zooService;
     }
 
-    // GET: api/enclosures - Haalt alle verblijven op met optionele filters
+    /// <summary>
+    /// Haalt alle verblijven op. Ondersteunt filtering op naam, klimaat en beveiligingsniveau.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Enclosure>>> GetAll(
         [FromQuery] string? search,
@@ -40,7 +42,9 @@ public class EnclosuresApiController : ControllerBase
         return Ok(await query.ToListAsync());
     }
 
-    // GET: api/enclosures/{id} - Haalt een specifiek verblijf op
+    /// <summary>
+    /// Haalt een specifiek verblijf op inclusief alle dieren die erin zitten.
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<Enclosure>> GetById(int id)
     {
@@ -56,7 +60,9 @@ public class EnclosuresApiController : ControllerBase
         return Ok(enclosure);
     }
 
-    // POST: api/enclosures - Maakt een nieuw verblijf aan
+    /// <summary>
+    /// Maakt een nieuw verblijf aan met opgegeven klimaat, habitat en beveiliging.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Enclosure>> Create(Enclosure enclosure)
     {
@@ -66,7 +72,9 @@ public class EnclosuresApiController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = enclosure.Id }, enclosure);
     }
 
-    // PUT: api/enclosures/{id} - Update een bestaand verblijf
+    /// <summary>
+    /// Wijzigt een bestaand verblijf. Dieren blijven gekoppeld aan het verblijf.
+    /// </summary>
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Enclosure enclosure)
     {
@@ -93,7 +101,9 @@ public class EnclosuresApiController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/enclosures/{id} - Verwijdert een verblijf
+    /// <summary>
+    /// Verwijdert een verblijf. Let op: dieren in dit verblijf worden niet automatisch verwijderd.
+    /// </summary>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -116,7 +126,9 @@ public class EnclosuresApiController : ControllerBase
 
     #region Acties
 
-    // GET: api/enclosures/{id}/sunrise - Zonsopgang voor dit verblijf
+    /// <summary>
+    /// Toont voor elk dier in dit verblijf wat er gebeurt bij zonsopgang.
+    /// </summary>
     [HttpGet("{id}/sunrise")]
     public async Task<ActionResult<List<string>>> Sunrise(int id)
     {
@@ -129,7 +141,9 @@ public class EnclosuresApiController : ControllerBase
         return Ok(_zooService.GetEnclosureSunrise(enclosure));
     }
 
-    // GET: api/enclosures/{id}/sunset - Zonsondergang voor dit verblijf
+    /// <summary>
+    /// Toont voor elk dier in dit verblijf wat er gebeurt bij zonsondergang.
+    /// </summary>
     [HttpGet("{id}/sunset")]
     public async Task<ActionResult<List<string>>> Sunset(int id)
     {
@@ -142,7 +156,9 @@ public class EnclosuresApiController : ControllerBase
         return Ok(_zooService.GetEnclosureSunset(enclosure));
     }
 
-    // GET: api/enclosures/{id}/feedingtime - Voedertijd voor dit verblijf
+    /// <summary>
+    /// Toont voor elk dier wat het eet. Waarschuwt bij gevaarlijke prooi/roofdier combinaties.
+    /// </summary>
     [HttpGet("{id}/feedingtime")]
     public async Task<ActionResult<List<string>>> FeedingTime(int id)
     {
@@ -155,7 +171,9 @@ public class EnclosuresApiController : ControllerBase
         return Ok(_zooService.GetEnclosureFeedingTime(enclosure));
     }
 
-    // GET: api/enclosures/{id}/checkconstraints - Check constraints voor dit verblijf
+    /// <summary>
+    /// Controleert ruimte, beveiliging en prooi/roofdier conflicten in dit verblijf.
+    /// </summary>
     [HttpGet("{id}/checkconstraints")]
     public async Task<ActionResult<Dictionary<string, List<string>>>> CheckConstraints(int id)
     {

@@ -16,7 +16,9 @@ public class CategoriesApiController : ControllerBase
         _context = context;
     }
 
-    // GET: api/categories - Haalt alle categorieën op met optionele filter
+    /// <summary>
+    /// Haalt alle categorieën op (bijv. Zoogdieren, Vogels). Ondersteunt zoeken op naam.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Category>>> GetAll([FromQuery] string? search)
     {
@@ -30,7 +32,9 @@ public class CategoriesApiController : ControllerBase
         return Ok(await query.ToListAsync());
     }
 
-    // GET: api/categories/{id} - Haalt een specifieke categorie op
+    /// <summary>
+    /// Haalt een specifieke categorie op inclusief alle dieren in die categorie.
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<Category>> GetById(int id)
     {
@@ -46,7 +50,9 @@ public class CategoriesApiController : ControllerBase
         return Ok(category);
     }
 
-    // POST: api/categories - Maakt een nieuwe categorie aan
+    /// <summary>
+    /// Maakt een nieuwe categorie aan voor het groeperen van dieren.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Category>> Create(Category category)
     {
@@ -56,7 +62,9 @@ public class CategoriesApiController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
     }
 
-    // PUT: api/categories/{id} - Update een bestaande categorie
+    /// <summary>
+    /// Wijzigt de naam van een bestaande categorie.
+    /// </summary>
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Category category)
     {
@@ -83,7 +91,9 @@ public class CategoriesApiController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/categories/{id} - Verwijdert een categorie
+    /// <summary>
+    /// Verwijdert een categorie. Dieren in deze categorie worden niet verwijderd.
+    /// </summary>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
