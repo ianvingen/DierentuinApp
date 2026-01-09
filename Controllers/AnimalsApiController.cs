@@ -19,7 +19,9 @@ public class AnimalsApiController : ControllerBase
         _zooService = zooService;
     }
 
-    // GET: api/animals - Haalt alle dieren op met optionele filters
+    /// <summary>
+    /// Haalt alle dieren op. Ondersteunt filtering op naam/soort, categorie, verblijf, grootte en dieet.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Animal>>> GetAll(
         [FromQuery] string? search,
@@ -47,7 +49,9 @@ public class AnimalsApiController : ControllerBase
         return Ok(await query.ToListAsync());
     }
 
-    // GET: api/animals/{id} - Haalt een specifiek dier op
+    /// <summary>
+    /// Haalt een specifiek dier op inclusief categorie en verblijf informatie.
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<Animal>> GetById(int id)
     {
@@ -64,7 +68,9 @@ public class AnimalsApiController : ControllerBase
         return Ok(animal);
     }
 
-    // POST: api/animals - Maakt een nieuw dier aan
+    /// <summary>
+    /// Maakt een nieuw dier aan in de dierentuin. Retourneert het aangemaakte dier met ID.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Animal>> Create(Animal animal)
     {
@@ -73,7 +79,9 @@ public class AnimalsApiController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = animal.Id }, animal);
     }
 
-    // PUT: api/animals/{id} - Update een bestaand dier
+    /// <summary>
+    /// Wijzigt een bestaand dier. Alle velden worden overschreven met de meegegeven waarden.
+    /// </summary>
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Animal animal)
     {
@@ -102,7 +110,9 @@ public class AnimalsApiController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/animals/{id} - Verwijdert een dier
+    /// <summary>
+    /// Verwijdert een dier permanent uit de dierentuin.
+    /// </summary>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -126,7 +136,9 @@ public class AnimalsApiController : ControllerBase
 
     #region Acties
 
-    // GET: api/animals/{id}/sunrise - Wat doet dit dier bij zonsopgang?
+    /// <summary>
+    /// Geeft aan of dit dier wakker wordt, gaat slapen, of altijd actief is bij zonsopgang.
+    /// </summary>
     [HttpGet("{id}/sunrise")]
     public async Task<ActionResult<string>> Sunrise(int id)
     {
@@ -136,7 +148,9 @@ public class AnimalsApiController : ControllerBase
         return Ok(_zooService.GetSunriseStatus(animal));
     }
 
-    // GET: api/animals/{id}/sunset - Wat doet dit dier bij zonsondergang?
+    /// <summary>
+    /// Geeft aan of dit dier wakker wordt, gaat slapen, of altijd actief is bij zonsondergang.
+    /// </summary>
     [HttpGet("{id}/sunset")]
     public async Task<ActionResult<string>> Sunset(int id)
     {
@@ -146,7 +160,9 @@ public class AnimalsApiController : ControllerBase
         return Ok(_zooService.GetSunsetStatus(animal));
     }
 
-    // GET: api/animals/{id}/feedingtime - Wat eet dit dier?
+    /// <summary>
+    /// Toont wat dit dier eet. Waarschuwt als er prooidieren in hetzelfde verblijf zitten.
+    /// </summary>
     [HttpGet("{id}/feedingtime")]
     public async Task<ActionResult<string>> FeedingTime(int id)
     {
@@ -161,7 +177,9 @@ public class AnimalsApiController : ControllerBase
         return Ok(_zooService.GetFeedingInfo(animal, enclosureAnimals));
     }
 
-    // GET: api/animals/{id}/checkconstraints - Voldoet dit dier aan alle eisen?
+    /// <summary>
+    /// Controleert of dit dier aan alle eisen voldoet (verblijf, beveiliging). Retourneert lijst met problemen.
+    /// </summary>
     [HttpGet("{id}/checkconstraints")]
     public async Task<ActionResult<List<string>>> CheckConstraints(int id)
     {

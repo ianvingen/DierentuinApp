@@ -18,7 +18,9 @@ public class ZooApiController : ControllerBase
         _zooService = zooService;
     }
 
-    // GET: api/zoo/sunrise - Zonsopgang voor hele dierentuin
+    /// <summary>
+    /// Simuleert zonsopgang: toont per verblijf welke dieren wakker worden en welke gaan slapen.
+    /// </summary>
     [HttpGet("sunrise")]
     public async Task<ActionResult<Dictionary<string, List<string>>>> Sunrise()
     {
@@ -26,7 +28,9 @@ public class ZooApiController : ControllerBase
         return Ok(result);
     }
 
-    // GET: api/zoo/sunset - Zonsondergang voor hele dierentuin
+    /// <summary>
+    /// Simuleert zonsondergang: toont per verblijf welke dieren wakker worden en welke gaan slapen.
+    /// </summary>
     [HttpGet("sunset")]
     public async Task<ActionResult<Dictionary<string, List<string>>>> Sunset()
     {
@@ -34,7 +38,9 @@ public class ZooApiController : ControllerBase
         return Ok(result);
     }
 
-    // GET: api/zoo/feedingtime - Voertijd voor hele dierentuin
+    /// <summary>
+    /// Toont per verblijf wat elk dier eet, met waarschuwingen bij gevaarlijke combinaties.
+    /// </summary>
     [HttpGet("feedingtime")]
     public async Task<ActionResult<Dictionary<string, List<string>>>> FeedingTime()
     {
@@ -42,7 +48,9 @@ public class ZooApiController : ControllerBase
         return Ok(result);
     }
 
-    // GET: api/zoo/checkconstraints - Check alle constraints
+    /// <summary>
+    /// Controleert alle verblijven op problemen: ruimtegebrek, beveiliging, prooi/roofdier conflicten.
+    /// </summary>
     [HttpGet("checkconstraints")]
     public async Task<ActionResult<Dictionary<string, Dictionary<string, List<string>>>>> CheckConstraints()
     {
@@ -50,7 +58,9 @@ public class ZooApiController : ControllerBase
         return Ok(result);
     }
 
-    // POST: api/zoo/autoassign?clearExisting=false - Wijs dieren automatisch toe aan verblijven
+    /// <summary>
+    /// Wijst automatisch dieren toe aan geschikte verblijven. Met clearExisting=true wordt eerst alles gereset.
+    /// </summary>
     [HttpPost("autoassign")]
     public async Task<ActionResult<string>> AutoAssign([FromQuery] bool clearExisting = false)
     {
