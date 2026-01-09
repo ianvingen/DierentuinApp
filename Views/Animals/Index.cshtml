@@ -1,5 +1,6 @@
 @model IEnumerable<DierentuinApp.Models.Animal>
 @using DierentuinApp.Models
+@using DierentuinApp.Helpers
 
 @{
     ViewData["Title"] = "Dieren";
@@ -32,7 +33,7 @@
                 <option value="">Grootte</option>
                 @foreach (var s in Enum.GetValues<AnimalSize>())
                 {
-                    <option value="@s" selected="@(ViewBag.CurrentSize != null && (AnimalSize)ViewBag.CurrentSize == s)">@s</option>
+                    <option value="@s" selected="@(ViewBag.CurrentSize != null && (AnimalSize)ViewBag.CurrentSize == s)">@s.GetDisplayName()</option>
                 }
             </select>
         </div>
@@ -41,7 +42,7 @@
                 <option value="">Dieet</option>
                 @foreach (var d in Enum.GetValues<DietaryClass>())
                 {
-                    <option value="@d" selected="@(ViewBag.CurrentDiet != null && (DietaryClass)ViewBag.CurrentDiet == d)">@d</option>
+                    <option value="@d" selected="@(ViewBag.CurrentDiet != null && (DietaryClass)ViewBag.CurrentDiet == d)">@d.GetDisplayName()</option>
                 }
             </select>
         </div>
@@ -72,8 +73,8 @@
                 <td>@animal.Species</td>
                 <td>@(animal.Category?.Name ?? "-")</td>
                 <td>@(animal.Enclosure?.Name ?? "-")</td>
-                <td>@animal.Size</td>
-                <td>@animal.DietaryClass</td>
+                <td>@animal.Size.GetDisplayName()</td>
+                <td>@animal.DietaryClass.GetDisplayName()</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-sm btn-info">Details</a>
                     <a asp-action="Edit" asp-route-id="@animal.Id" class="btn btn-sm btn-warning">Bewerken</a>

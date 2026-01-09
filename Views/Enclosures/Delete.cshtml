@@ -1,4 +1,5 @@
 @model DierentuinApp.Models.Enclosure
+@using DierentuinApp.Helpers
 
 @{
     ViewData["Title"] = "Verwijderen - " + Model.Name;
@@ -21,7 +22,7 @@
             <dd class="col-sm-9">@Model.Name</dd>
 
             <dt class="col-sm-3">Klimaat</dt>
-            <dd class="col-sm-9">@Model.Climate</dd>
+            <dd class="col-sm-9">@Model.Climate.GetDisplayName()</dd>
 
             <dt class="col-sm-3">Grootte</dt>
             <dd class="col-sm-9">@Model.Size m²</dd>
